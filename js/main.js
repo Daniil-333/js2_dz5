@@ -3,8 +3,11 @@ const App = {
         return {
             API: `https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses`,
             catalogUrl: '/catalogData.json',
+            basketUrl: '/getBasket.json',
             products: [],
+            cart: [],
             imgCatalog: 'https://placehold.it/200x150',
+            cartCatalog: 'https://placehold.it/50x100',
             filtered: [],
             searchLine: '',
             isVisibleCart: true,
@@ -20,6 +23,22 @@ const App = {
         addProduct(product) {
             console.log(product);
             console.log(product.id_product);
+            this.getJson(`${this.API + this.basketUrl}`)
+                .then(data => {
+                    if (data.result) {
+                        let find = this.products.find(el => el.id_product === product.id_product);
+                        if (find) {
+                            find.changeQuantity(1);
+                            return;
+                        }
+
+                        let prod = Object.assign({ quantity: 1 }, product);
+                        this.handleData([prod]);
+                    } else {
+                        console.log('some error');
+                    }
+                })
+
         },
 
         filterGoods() {
@@ -47,6 +66,12 @@ const App = {
             .then(data => {
                 for (let el of data) {
                     this.products.push(el);
+                }
+            });
+        this.getJson(`${this.API + this.basketUrl}`)
+            .then(data => {
+                for (let el of data.contents) {
+                    this.cart.push(el);
                 }
             });
     }
