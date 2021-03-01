@@ -8,6 +8,7 @@ const App = {
             filtered: [],
             searchLine: '',
             isVisibleCart: true,
+            show: true,
         }
     },
     methods: {

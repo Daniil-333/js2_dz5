@@ -18,7 +18,10 @@
                     </button>
                 </form>
                 <button class="btn-cart" type="button" @click="isVisibleCart=!isVisibleCart">Корзина</button>
-                <div class="cart-block" v-show="!isVisibleCart"></div>
+                <div class="cart-block" v-show="!isVisibleCart">
+                    <p v-if="show"><i>Нет данных</i></p>
+
+                </div>
             </div>
         </header>
         <main>
